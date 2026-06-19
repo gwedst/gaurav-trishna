@@ -130,7 +130,10 @@ export function LoadingScreen() {
         >
           {/* Left panel — Bride */}
           <div style={{ ...panelBase, left: 0, boxShadow: "inset -6px 0 18px rgba(0,0,0,0.07)" }}>
-            <div style={{ position: "absolute", inset: isMobile ? "8px" : "16px", border: `1px solid ${BORDER_GOLD}`, borderRight: "none", pointerEvents: "none" }} />
+          {/* Left panel inner border — desktop only */}
+            {!isMobile && (
+              <div style={{ position: "absolute", inset: "16px", border: `1px solid ${BORDER_GOLD}`, borderRight: "none", pointerEvents: "none" }} />
+            )}
             {!isMobile && (
               <>
                 <div style={{ position: "absolute", top: 20, left: 20 }}><CornerFloral /></div>
@@ -157,7 +160,10 @@ export function LoadingScreen() {
 
           {/* Right panel — Groom */}
           <div style={{ ...panelBase, right: 0, boxShadow: "inset 6px 0 18px rgba(0,0,0,0.07)" }}>
-            <div style={{ position: "absolute", inset: isMobile ? "8px" : "16px", border: `1px solid ${BORDER_GOLD}`, borderLeft: "none", pointerEvents: "none" }} />
+          {/* Right panel inner border — desktop only */}
+            {!isMobile && (
+              <div style={{ position: "absolute", inset: "16px", border: `1px solid ${BORDER_GOLD}`, borderLeft: "none", pointerEvents: "none" }} />
+            )}
             {!isMobile && (
               <>
                 <div style={{ position: "absolute", top: 20, right: 20 }}><CornerFloral flip /></div>
@@ -192,47 +198,77 @@ export function LoadingScreen() {
               top: 0, bottom: 0,
               left: "50%",
               transform: "translateX(-50%)",
-              width: centerWidth,
+              width: isMobile ? "1px" : centerWidth,
               zIndex: 10,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
               pointerEvents: "none",
             }}
           >
-            <div style={{ width: "1px", flex: 1, background: `linear-gradient(to bottom, transparent, ${BORDER_GOLD})`, marginBottom: "12px" }} />
-
-            <div style={{
-              background: "#FAF5EF",
-              border: `1px solid ${BORDER_GOLD}`,
-              borderRadius: "50%",
-              width: heartCircle,
-              height: heartCircle,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: `0 0 0 6px #FAF5EF, 0 0 0 7px ${BORDER_GOLD}55`,
-              flexShrink: 0,
-            }}>
-              <motion.span
-                animate={{ scale: [1, 1.18, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                style={{ fontSize: heartSize, lineHeight: 1, display: "block" }}
-              >
-                ♥
-              </motion.span>
-            </div>
-
-            <p style={{ fontFamily: "'Great Vibes', cursive", fontSize: gtFontSize, color: GOLD, lineHeight: 1, whiteSpace: "nowrap", margin: "12px 0 6px" }}>
-              G & T
-            </p>
-            <GoldDivider width={centerDivW} />
-            <p style={{ fontFamily: "'Lato', sans-serif", fontSize: isMobile ? "7px" : "8px", letterSpacing: "3px", textTransform: "uppercase", color: "rgba(44,18,24,0.4)", marginTop: "8px", textAlign: "center", lineHeight: 1.8, whiteSpace: "nowrap" }}>
-              6 · 7 · 8<br />July 2026
-            </p>
-
-            <div style={{ width: "1px", flex: 1, background: `linear-gradient(to top, transparent, ${BORDER_GOLD})`, marginTop: "12px" }} />
+            {isMobile ? (
+              /* Mobile: just a clean vertical line with a heart badge pinned to center */
+              <>
+                <div style={{ width: "1px", flex: 1, background: `linear-gradient(to bottom, transparent, ${BORDER_GOLD})` }} />
+                <div style={{
+                  background: "#FAF5EF",
+                  border: `1px solid ${BORDER_GOLD}`,
+                  borderRadius: "50%",
+                  width: heartCircle,
+                  height: heartCircle,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: `0 0 0 4px #FAF5EF, 0 0 0 5px ${BORDER_GOLD}55`,
+                  flexShrink: 0,
+                  position: "relative",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}>
+                  <motion.span
+                    animate={{ scale: [1, 1.18, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ fontSize: heartSize, lineHeight: 1, display: "block" }}
+                  >
+                    ♥
+                  </motion.span>
+                </div>
+                <div style={{ width: "1px", flex: 1, background: `linear-gradient(to top, transparent, ${BORDER_GOLD})` }} />
+              </>
+            ) : (
+              /* Desktop: full ornate center seam */
+              <>
+                <div style={{ width: "1px", flex: 1, background: `linear-gradient(to bottom, transparent, ${BORDER_GOLD})`, marginBottom: "12px" }} />
+                <div style={{
+                  background: "#FAF5EF",
+                  border: `1px solid ${BORDER_GOLD}`,
+                  borderRadius: "50%",
+                  width: heartCircle,
+                  height: heartCircle,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: `0 0 0 6px #FAF5EF, 0 0 0 7px ${BORDER_GOLD}55`,
+                  flexShrink: 0,
+                }}>
+                  <motion.span
+                    animate={{ scale: [1, 1.18, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ fontSize: heartSize, lineHeight: 1, display: "block" }}
+                  >
+                    ♥
+                  </motion.span>
+                </div>
+                <p style={{ fontFamily: "'Great Vibes', cursive", fontSize: gtFontSize, color: GOLD, lineHeight: 1, whiteSpace: "nowrap", margin: "12px 0 6px" }}>
+                  G & T
+                </p>
+                <GoldDivider width={centerDivW} />
+                <p style={{ fontFamily: "'Lato', sans-serif", fontSize: "8px", letterSpacing: "3px", textTransform: "uppercase", color: "rgba(44,18,24,0.4)", marginTop: "8px", textAlign: "center", lineHeight: 1.8, whiteSpace: "nowrap" }}>
+                  6 · 7 · 8<br />July 2026
+                </p>
+                <div style={{ width: "1px", flex: 1, background: `linear-gradient(to top, transparent, ${BORDER_GOLD})`, marginTop: "12px" }} />
+              </>
+            )}
           </motion.div>
         </motion.div>
       )}
