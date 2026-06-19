@@ -97,7 +97,8 @@ function SmoothSecondsRoller({ targetDate, small }: { targetDate: Date; small?: 
     return () => cancelAnimationFrame(rafRef.current);
   }, [targetDate]);
 
-  const boxH = small ? ITEM_H - 10 : ITEM_H;
+  const boxH = ITEM_H; // always use full ITEM_H for strip alignment
+  const containerH = small ? 42 : ITEM_H + 12;
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div
@@ -107,15 +108,15 @@ function SmoothSecondsRoller({ targetDate, small }: { targetDate: Date; small?: 
           borderRadius: "8px",
           padding: small ? "4px 8px" : "6px 14px",
           minWidth: small ? "44px" : "62px",
-          height: boxH + 12,
+          height: containerH,
           overflow: "hidden",
           position: "relative",
         }}
       >
-        {/* Top/bottom fade masks */}
+        {/* Top/bottom fade masks — use tight 15%/85% so they don't cover the center digit */}
         <div style={{
           position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
-          background: "linear-gradient(to bottom, rgba(250,248,242,0.9) 0%, transparent 30%, transparent 70%, rgba(250,248,242,0.9) 100%)",
+          background: "linear-gradient(to bottom, rgba(250,248,242,0.85) 0%, transparent 20%, transparent 80%, rgba(250,248,242,0.85) 100%)",
         }} />
         <div
           style={{
